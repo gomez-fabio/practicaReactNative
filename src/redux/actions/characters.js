@@ -31,7 +31,7 @@ function updateCharactersList(value) {
       const fetchURL = '/v1/public/characters?apikey=' + constants.APIKEY
 
       fetch(fetchURL).then(response => {
-        // console.log("response: ", response)
+        console.log("response: ", response)
         dispatch(updateCharactersList(response.data.results))
         dispatch(setCharactersFetching(false))
       }).catch(error => {
