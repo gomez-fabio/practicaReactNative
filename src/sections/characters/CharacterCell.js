@@ -21,11 +21,9 @@ export default class CharacterCell extends Component {
         return (
             <TouchableOpacity onPress={ ()=> onSelect(item) }>
                 <Image source={thumbnail} resizeMode={'cover'} style={styles.image} />
-                <View style={styles.textContainerBack}>
-                    <Text style={styles.nameBack}> { name } </Text>
-                </View>
-                <View style={styles.textContainerFront}>
-                    <Text style={styles.nameFront}> { name } </Text>
+
+                <View style={styles.textContainer}>
+                    <Text style={styles.name}> { name } </Text>
                 </View>                        
             </TouchableOpacity>
         )
@@ -37,39 +35,23 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 250
     },
-    textContainerFront: {
+    textContainer: {
         flexDirection: 'row', // Alineado en la misma línea
         alignItems: 'center',  // Centrado respecto al eje vertical
-        padding: 20,
+        padding: 10,
         position: 'absolute',
         bottom: 0,
         right: 0,
         left: 0,
-        backgroundColor: 'rgba(255,255,255,0.2)'
+        backgroundColor: 'rgba(255,255,255,0.3)'
     } ,
 
-    textContainerBack: {
-        flexDirection: 'row', // Alineado en la misma línea
-        alignItems: 'center',  // Centrado respecto al eje vertical
-        padding: 20,
-        position: 'absolute',
-        bottom: -2,
-        right: 0,
-        left: 2,
-        backgroundColor: 'transparent'
-    } ,
-
-    nameBack: {
+    name: {
         flex: 1,  // Para que ocupe todo el espacio libre
         fontSize: 18,
         fontWeight: 'bold',
-        color: 'black',
-    },
-
-    nameFront: {
-        flex: 1,  // Para que ocupe todo el espacio libre
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: 'yellow',
+        color: 'rgb(234,187,47)',
+        textShadowOffset: {width:1, height:1},
+        textShadowColor:'black'
     },
 })
