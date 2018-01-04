@@ -16,6 +16,7 @@ export default class CharacterCell extends Component {
 
         const name   = item.name ? item.name : ''
         const thumbnail    = item.thumbnail ? {uri: item.thumbnail.path + '/landscape_large.' + item.thumbnail.extension} : null
+        thumbnail.uri = thumbnail.uri.replace('http', 'https')
 
         return (
             <TouchableOpacity onPress={ ()=> onSelect(item) }>
