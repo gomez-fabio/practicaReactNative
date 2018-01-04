@@ -23,7 +23,7 @@ export default class App extends Component {
     
     componentWillMount() {
         webservices.configureAxios()
-        StatusBar.setBarStyle('default')
+        StatusBar.setBarStyle('dark-content')
       }
 
     render() {
@@ -34,10 +34,11 @@ export default class App extends Component {
         <Router>
           <Scene key="root">
             <Scene 
-              title = {'Marvel Characters'}
+              title = {'MARVEL Characters'}
               key = {'CharactersList'}
               component= { CharactersList }
-              // navBarButtonColor= { 'black' }
+              navigationBarStyle= { styles.navBar }
+              navBarButtonColor= { 'black' }
               // hideNavBar
             />
 
