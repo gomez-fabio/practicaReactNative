@@ -11,12 +11,12 @@ export default class CharacterCell extends Component {
 
     render() {
 
-        const item     = this.props.item
-        const onSelect = this.props.onSelect
+        const item      = this.props.item
+        const onSelect  = this.props.onSelect
 
-        const name   = item.name ? item.name : ''
-        const thumbnail    = item.thumbnail ? {uri: item.thumbnail.path + '/landscape_amazing.' + item.thumbnail.extension} : null
-        thumbnail.uri = thumbnail.uri.replace('http', 'https')
+        const name      = item.name ? item.name : ''
+        const thumbnail = item.thumbnail ? {uri: item.thumbnail.path + '/landscape_amazing.' + item.thumbnail.extension} : null
+        thumbnail.uri   = thumbnail.uri.replace('http', 'https')
 
         return (
             <TouchableOpacity onPress={ ()=> onSelect(item) }>

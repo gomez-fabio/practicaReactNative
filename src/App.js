@@ -4,7 +4,9 @@ import { Actions, Scene, Router } from 'react-native-router-flux';
 import * as webservices from 'practicaReactNative/src/webservices/webservices'
 import { Colors } from 'practicaReactNative/src/commons'
 
+/********************* COMPONENTS *********************/
 import CharactersList from 'practicaReactNative/src/sections/characters/CharactersList';
+import CharacterView  from 'practicaReactNative/src/sections/characters/CharacterView';
 
 
 /********************* REDUX *********************/
@@ -42,12 +44,12 @@ export default class App extends Component {
               // hideNavBar
             />
 
-            {/* <Scene 
-              key = {'CharacterDetail'}
-              component = { CharacterDetail }
+            <Scene
+              key = {'CharacterView'}
+              component = { CharacterView }
               navigationBarStyle= { styles.navBar }
-              navBarButtonColor= { 'white' }            
-            /> */}
+              navBarButtonColor= { 'black' }  
+            />
           </Scene>
         </Router>
       </Provider>

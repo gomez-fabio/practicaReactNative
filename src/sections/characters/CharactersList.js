@@ -47,8 +47,9 @@ class CharactersList extends Component {
 
 const mapStateToProps = (state) =>{
     return {
-        list: state.characters.list,
-        isFetching: state.characters.isFetching
+        list       : state.characters.list,
+        character  : state.characters.item,
+        isFetching : state.characters.isFetching
     }
 }
 
@@ -59,7 +60,8 @@ const mapDispatchToProps = (dispatch, props) => {
         },
 
         updateSelected: (character) => {
-
+            dispatch(CharactersActions.updateCharacterSelected(character))
+            Actions.CharacterView({ title: character.name })
         }
     }
 }
