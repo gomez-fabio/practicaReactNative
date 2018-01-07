@@ -41,3 +41,35 @@ function updateCharactersList(value) {
     }
 
 }
+
+export function postCharacter(data) {
+
+  return {
+    type: types.CHARACTER_POST_NEW_CHARACTER,
+    data
+}
+
+/* // NO HAY POSIBILIDAD DE SUBIR NUEVOS PERSONAJES A MARVEL
+  return (dispatch, getState) => {
+
+      dispatch(setCharactersFetching(true))
+
+      const fetchUrl = '/add_character'
+      post(fetchUrl, data).then( response => {
+
+          dispatch(setCharactersFetching(false))
+          console.log("postCharacter response: ", response)
+
+          if (response.record) {
+              dispatch(fetchCharactersList())
+              dispatch(updateCharacterSelected(null))
+              Actions.pop()
+          }
+
+      }).catch( error => {
+          dispatch(setCharactersFetching(false))
+          console.log("postCharacter error: ", error)
+      })
+  }
+*/
+} 

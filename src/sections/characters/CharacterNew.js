@@ -51,6 +51,8 @@ class CharacterNew extends Component {
             nameError: errors.name ? errors.name : '',
             descriptionError: errors.description ? errors.description : '',
         })
+
+        return valid
     }
 
     onSubmit(){
@@ -89,9 +91,6 @@ class CharacterNew extends Component {
         }
         else {
             let source = { uri: response.uri };
-        
-            // You can also display the image using data:
-            // let source = { uri: 'data:image/jpeg;base64,' + response.data };
         
             this.setState({
             image: response
@@ -172,7 +171,7 @@ class CharacterNew extends Component {
                 <View style={styles.buttonContainer} >
                     <Button
                         label   = { 'Submit' }
-                        onPress = { () => this.onSubmit }
+                        onPress = { () => this.onSubmit() }
                         isFetching = { this.props.isFetching }
                     />
                 </View>

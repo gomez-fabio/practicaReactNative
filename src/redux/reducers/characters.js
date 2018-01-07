@@ -26,6 +26,12 @@ export default function reducer (state = initialState, action = {}) {
             ...state,
             isFetching: action.value
           }
+        
+          case types.CHARACTER_POST_NEW_CHARACTER:
+          return {
+              ...state,
+              list: [...state.list, action.value]
+          }
     
         default:
           return state;
