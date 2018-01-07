@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Text, Button,ScrollView } from 'react-native';
+import { View, StyleSheet, Image, Text, ScrollView } from 'react-native';
 import { Colors } from 'practicaReactNative/src/commons'
 import { connect } from 'react-redux'
+import { Button } from 'practicaReactNative/src/widgets'
 
 class CharacterView extends Component {
 
     render () {
-        console.log ("this.props.character: ", this.props.character)
+        // console.log ("this.props.character: ", this.props.character)
         const { character } = this.props
         const description = character.description ? character.description : 'No description available'
         const thumbnail = character && character.thumbnail ? {uri: character.thumbnail.path + '/landscape_amazing.' + character.thumbnail.extension} : null
@@ -17,9 +18,9 @@ class CharacterView extends Component {
                 <View style={styles.textContainer}>
                     <Text style={styles.description}>{ description }</Text>
                 </View>
-                {/* <View style={styles.buttonContainer}>
-                    <Button title={'Eliminar'} onPress={ () => this.onSubmit(character) } isFetching={this.props.isFetching} />
-                </View> */}
+                <View style={styles.buttonContainer}>
+                    <Button label={'Wiki'} onPress={ () => this.onSubmit(character) } isFetching={this.props.isFetching} />
+                </View>
             </ScrollView>
         )
     }

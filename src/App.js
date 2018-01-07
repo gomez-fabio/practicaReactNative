@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet,View, StatusBar } from 'react-native';
+import { StyleSheet,View, StatusBar, TouchableOpacity, Text } from 'react-native';
 import { Actions, Scene, Router } from 'react-native-router-flux';
 import * as webservices from 'practicaReactNative/src/webservices/webservices'
 import { Colors } from 'practicaReactNative/src/commons'
@@ -7,6 +7,7 @@ import { Colors } from 'practicaReactNative/src/commons'
 /********************* COMPONENTS *********************/
 import CharactersList from 'practicaReactNative/src/sections/characters/CharactersList';
 import CharacterView  from 'practicaReactNative/src/sections/characters/CharacterView';
+import CharacterNew  from 'practicaReactNative/src/sections/characters/CharacterNew';
 
 
 /********************* REDUX *********************/
@@ -28,31 +29,47 @@ export default class App extends Component {
         StatusBar.setBarStyle('dark-content')
       }
 
+    renderAddCharacterButton() {
+      return (
+        <TouchableOpacity style={styles.addButton} onPress={ () => Actions.CharacterNew() }>
+          <Text style={styles.addButtonText}>{'Add'}</Text>
+        </TouchableOpacity>
+      )
+    }
+    
     render() {
         console.disableYellowBox = true;
 
         return (
-            <Provider store= {store}>
-        <Router>
-          <Scene key="root">
-            <Scene 
-              title = {'MARVEL Characters'}
-              key = {'CharactersList'}
-              component= { CharactersList }
-              navigationBarStyle= { styles.navBar }
-              navBarButtonColor= { 'black' }
-              // hideNavBar
-            />
+          <Provider store= {store}>
+            <Router>
+              <Scene key="root">
+                <Scene 
+                  title = {'MARVEL Characters'}
+                  key = {'CharactersList'}
+                  component= { CharactersList }
+                  navigationBarStyle= { styles.navBar }
+                  navBarButtonColor= { 'black' }
+                  renderRightButton={ () => this.renderAddCharacterButton() }
+                />
 
-            <Scene
-              key = {'CharacterView'}
-              component = { CharacterView }
-              navigationBarStyle= { styles.navBar }
-              navBarButtonColor= { 'black' }  
-            />
-          </Scene>
-        </Router>
-      </Provider>
+                <Scene
+                  key = {'CharacterView'}
+                  component = { CharacterView }
+                  navigationBarStyle= { styles.navBar }
+                  navBarButtonColor= { 'black' }  
+                />
+
+                <Scene
+                  key={'CharacterNew'}
+                  component= {CharacterNew}
+                  navigationBarStyle= {styles.navBar}
+                  navBarButtonColor= { 'black' }
+                  title={ 'Add' }
+                />
+              </Scene>
+            </Router>
+          </Provider>
         );
     }
 }
@@ -60,5 +77,17 @@ export default class App extends Component {
 const styles = StyleSheet.create({
     navBar: {
       backgroundColor: Colors.navBar
+    },
+
+    addButton: {
+      padding: 20,
+      alignItems: 'center',
+      justifyContent:'center'
+    },
+  
+    addButtonText: {
+      color: 'black',
+      fontSize: 16,
+      fontWeight: '600'
     }
   });
