@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { ListView, View, StyleSheet, RefreshControl, TouchableOpacity, Text } from 'react-native'
 import { Actions } from 'react-native-router-flux';
 import { Colors } from 'practicaReactNative/src/commons'
+import Spinner from 'react-native-spinkit'
 
 // Importamos nuestra celda
 import CharacterCell from './CharacterCell'
@@ -47,19 +48,28 @@ class CharactersList extends Component {
         return (
            
             <View style={styles.container}>
+            <View style={ styles.spinnerContainer }>
+                <Spinner
+                    isVisible   = { this.props.isFetching }
+                    color       = { Colors.spinner }
+                    type        = { 'Circle' }
+                    style       = { styles.spinner }
+                    size        = { 30 }
+                />
+            </View>
                 <ListView 
                     dataSource              = { datasource }
                     renderRow               = { this.renderRow }
                     onEndReached            = { this.onEndReached }
                     enableEmptySections     = { true }
-                    refreshControl          = {
-                                                <RefreshControl
-                                                    refreshing  = { this.props.isFetching }
-                                                    onRefresh   = { () => this.props.initCharactersList() }
-                                                    colors      = { ['white'] }
-                                                    tintColor   = { 'white' }
-                                                />
-                                            }
+                    // refreshControl          = {
+                    //                             <RefreshControl
+                    //                                 refreshing  = { this.props.isFetching }
+                    //                                 onRefresh   = { () => this.props.initCharactersList() }
+                    //                                 colors      = { ['white'] }
+                    //                                 tintColor   = { 'white' }
+                    //                             />
+                    //                         }
                 />
 
             </View>
@@ -102,7 +112,18 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: Colors.background,
-    }
+    },
+
+    spinnerContainer: {
+        // flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: Colors.background,
+    },
+    spinner: {
+        top: 10,
+        margin: 40
+      },
   })
 
   
