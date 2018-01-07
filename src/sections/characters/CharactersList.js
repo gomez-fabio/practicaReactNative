@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatList, View, StyleSheet } from 'react-native'
+import { ListView, View, StyleSheet, RefreshControl, TouchableOpacity, Text } from 'react-native'
 import { Actions } from 'react-native-router-flux';
 import { Colors } from 'practicaReactNative/src/commons'
 
@@ -13,33 +13,63 @@ import * as CharactersActions from 'practicaReactNative/src/redux/actions/charac
 
 class CharactersList extends Component {
 
+    constructor(props) {
+        super(props) 
+        this.renderRow = this.renderRow.bind(this)
+        this.onEndReached = this.onEndReached.bind(this)
+    }
+
     componentWillMount() {
-        this.props.fetchCharactersList()
+        this.props.initCharactersList()
     }
 
     onSelect(character) {
         this.props.updateSelected(character)
     }
  
-    renderItem(item, index) {
-        return < CharacterCell 
-            item={item} //parámetros que le pasamos al componente CharacterCell como props
-            onSelect= { (character) => // el character que recibo desde el CharacterCell
-                        this.onSelect(character) }  // llamamos a la función LOCAL onSelect y le pasamos el character          
-        />
+    renderRow(rowData) {
+        return <CharacterCell item={rowData} onSelect={ (character) => this.onSelect(character) } key={rowData.id} />
+    }
+
+    onEndReached() {
+        if(this.props.list.length < this.props.total && !this.props.isFetching) {
+            let newOffset = this.props.offset + 10
+            this.props.fetchCharactersList(newOffset)
+        }
+        
+    }
+
+    renderFooter() {
+        return (
+            <TouchableOpacity onPress={ () => this.onEndReached() }>
+                <Text style={{padding: 10, color: 'white', fontWeight: 'bold', fontSize: 20, textAlign: 'center'}}>More</Text>
+            </TouchableOpacity>
+        )
     }
 
     render() {
-        return (
-            <View style={styles.container}>
+        const list = this.props.list
+        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
+        const datasource = ds.cloneWithRows(list)
 
-                <FlatList
-                    data = {this.props.list} // el array con el listado
-                    renderItem = { ({item,index}) => this.renderItem(item,index) } // La función que pinta la celda
-                    keyExtractor = { (item,index) => index } // un id unico que le tenemos que indicar a Flatlist de cada elemento, pudiera ser cualquiera de los dos.
-                    extraData = { this.props } //mira en la doc, no refresca si no tiene esto puesto..
+        return (
+           
+            <View style={styles.container}>
+                <ListView 
+                    dataSource              = { datasource }
+                    renderRow               = { this.renderRow }
+                    onEndReached            = { this.onEndReached }
+                    enableEmptySections     = { true }
+                    refreshControl          = {
+                                                <RefreshControl
+                                                    refreshing  = { this.props.isFetching }
+                                                    onRefresh   = { () => this.props.initCharactersList() }
+                                                    colors      = { ['white'] }
+                                                    tintColor   = { 'white' }
+                                                />
+                                            }
                 />
-            
+
             </View>
         )
     }
@@ -47,22 +77,30 @@ class CharactersList extends Component {
 
 const mapStateToProps = (state) =>{
     return {
-        list       : state.characters.list,
-        character  : state.characters.item,
-        isFetching : state.characters.isFetching
+        list        : state.characters.list,
+        total       : state.characters.total,
+        offset      : state.characters.offset,
+        character   : state.characters.item,
+        isFetching  : state.characters.isFetching,
     }
 }
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        fetchCharactersList: () => {
+
+        initCharactersList: () => {
+            dispatch(CharactersActions.initCharactersList())
+        },
+
+        fetchCharactersList: (offset) => {
+            dispatch(CharactersActions.updateCharactersListOffset(offset))
             dispatch(CharactersActions.fetchCharactersList())
         },
 
         updateSelected: (character) => {
             dispatch(CharactersActions.updateCharacterSelected(character))
             Actions.CharacterView({ title: character.name })
-        }
+        },
     }
 }
 

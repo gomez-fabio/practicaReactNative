@@ -1,13 +1,23 @@
 import * as types from '../types/characters';
 import { fetch, post } from 'practicaReactNative/src/webservices/webservices';
 import { constants } from 'practicaReactNative/src/webservices';
+import qs from 'qs'
 
-function updateCharactersList(value) {
+function updateCharactersList(list, total) {
     return {
       type: types.CHARACTERS_UPDATE_LIST,
-      value: value
+      list,
+      total
     }
   }
+
+export  function updateCharactersListOffset(value) {
+    return {
+      type: types.CHARACTERS_UPDATE_LIST_OFFSET,
+      value,
+    }
+  }
+
   
   function setCharactersFetching(value) {
     return {
@@ -23,21 +33,52 @@ function updateCharactersList(value) {
     }
   }
 
+  export function initCharactersList() {
+    return (dispatch, getState) => {
+
+        dispatch(updateCharactersList([], 0))
+        dispatch(updateCharactersListOffset(0))
+        dispatch(fetchCharactersList())
+    }
+}
+
   export function fetchCharactersList() {
     return (dispatch, getState) => {
 
       dispatch(setCharactersFetching(true))
+        
+      const state = getState() // Get redux state
+      const list = state.characters.list // Get current characters list
+      const offset = state.characters.offset
+      const limit = 10
 
-      const fetchURL = '/v1/public/characters?apikey=' + constants.APIKEY
+      const filters = {
+          offset: offset,            
+          limit: limit,
+          apikey: constants.APIKEY
+      }
 
-      fetch(fetchURL).then(response => {
-        console.log("response: ", response)
-        dispatch(updateCharactersList(response.data.results))
-        dispatch(setCharactersFetching(false))
-      }).catch(error => {
-        console.log("error: ", error)
-        dispatch(setCharactersFetching(false))
+      const fetchUrl = '/v1/public/characters?' + qs.stringify(filters)
+      console.log("fetchCharactersList fetchUrl: ", fetchUrl)
+
+      fetch( fetchUrl ).then(response => {
+
+          console.log("fetchCharactersList response: ", response)
+          dispatch(setCharactersFetching(false))
+
+          const newList = [...list, ...response.data.results] // Concat current list with new results
+          //console.log("fetchCharactersList newList: ", newList)
+          console.log("fetchCharactersList newList length: ", newList.length)
+          const total = response.data.total
+          dispatch(updateCharactersList(newList, total)) // Update concatened list in reducer
+
+      }).catch( error => {
+
+          console.log("fetchCharactersList error: ", error)
+          dispatch(setCharactersFetching(false))
+
       })
+    
     }
 
 }
@@ -71,5 +112,5 @@ export function postCharacter(data) {
           console.log("postCharacter error: ", error)
       })
   }
-*/
-} 
+  */
+}
