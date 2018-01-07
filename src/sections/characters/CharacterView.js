@@ -6,6 +6,10 @@ import { Button } from 'practicaReactNative/src/widgets'
 
 class CharacterView extends Component {
 
+    onSubmit() {
+
+    }
+
     render () {
         // console.log ("this.props.character: ", this.props.character)
         const { character } = this.props
@@ -19,7 +23,8 @@ class CharacterView extends Component {
                     <Text style={styles.description}>{ description }</Text>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <Button label={'Wiki'} onPress={ () => this.onSubmit(character) } isFetching={this.props.isFetching} />
+                    <Button label={'Wiki'} containerStyle={styles.button} onPress={ () => this.onSubmit(character) } isFetching={this.props.isFetching} />
+                    <Button label={'Detail'} containerStyle={styles.button} onPress={ () => this.onSubmit(character) } isFetching={this.props.isFetching} />
                 </View>
             </ScrollView>
         )
@@ -60,7 +65,13 @@ const styles = StyleSheet.create({
         height: 250,
     },
 
+    button:{
+        flex: 1,
+        margin:10,
+    },
+
     buttonContainer: {
+        flexDirection: 'row',
         margin: 20,
     },
 });
