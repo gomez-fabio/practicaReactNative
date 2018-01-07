@@ -3,6 +3,7 @@ import { View, Text, Image, StyleSheet,TouchableOpacity, ScrollView } from 'reac
 import { Colors } from 'practicaReactNative/src/commons'
 import { Input, Button } from 'practicaReactNative/src/widgets'
 import ImagePicker from 'react-native-image-picker'
+import { Actions } from 'react-native-router-flux'
 
 // Redux
 import { connect } from  'react-redux'
@@ -99,8 +100,7 @@ class CharacterNew extends Component {
         });
     }
 
-    render () {
-        console.log("this.state.image: ", this.state.image)       
+    render () {      
         const imageUri = this.state.image ? { uri: this.state.image.uri } : null
         const imageButtonText = this.state.image ? this.state.image.fileName : 'Choose image'
 
@@ -191,6 +191,7 @@ const mapDispatchToProps = (dispatch, props) => {
     return {
         postCharacter: (data) => {
             dispatch(CharactersActions.postCharacter(data))
+            Actions.pop()
         }
     }
 }

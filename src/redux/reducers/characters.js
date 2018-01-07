@@ -39,7 +39,6 @@ export default function reducer (state = initialState, action = {}) {
           case types.CHARACTER_POST_NEW_CHARACTER:
           return {
               ...state,
-              list: [...state.list, action.value]
           }
     
         default:
