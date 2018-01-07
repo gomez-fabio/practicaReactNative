@@ -39,14 +39,6 @@ class CharactersList extends Component {
         
     }
 
-    renderFooter() {
-        return (
-            <TouchableOpacity onPress={ () => this.onEndReached() }>
-                <Text style={{padding: 10, color: 'white', fontWeight: 'bold', fontSize: 20, textAlign: 'center'}}>More</Text>
-            </TouchableOpacity>
-        )
-    }
-
     render() {
         const list = this.props.list
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
